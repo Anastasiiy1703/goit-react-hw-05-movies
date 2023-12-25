@@ -27,17 +27,7 @@ const Home = () => {
 
   return (
     <div>
-      <nav className={HomeCss.navigation}>
-        <ul className={HomeCss.list}>
-          <li>
-            <NavLink to="/">Home</NavLink>
-          </li>
-          <li>
-            <NavLink to="/movies">Movies</NavLink>
-          </li>
-        </ul>
-      </nav>
-      <h2>Trending Movies</h2>
+      <h2 className={HomeCss.title}>Trending Movies</h2>
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>

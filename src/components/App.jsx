@@ -1,20 +1,36 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
-import Home from "./Home/Home";
-import Movies from "./Movies/Movies";
-import MovieDetails from "./MovieDetails/MovieDetails";
-import Cast from "./Cast/Cast";
-import Reviews from "./Reviews/Reviews";
 import Default from "./Defoult/Defoult";
+import Layout from "../Layout/Layout";
+import Layout2 from "Layout/Layout2";
+
+const HomePage = lazy(() => import("pages/HomePage"));
+const MoviesPage = lazy(() => import("pages/MoviePage"));
+const CastPage = lazy(() => import("pages/CastPage"));
+const ReviewsPage = lazy(() => import("pages/ReviewsPage"));
 
 const App = () => {
-  return <Routes>
-    <Route path="/" element={<Home />} />
-    <Route path="/movies" element={< Movies />} />
-    <Route path="/movies/:movieId" element={<MovieDetails />} />
-    <Route path="/movies/:movieId/cast" element={<Cast />} />
-    <Route path="/movies/:movieId/reviews" element={<Reviews />} />
-    <Route path="*" element={<Default />} />
-  </Routes>
-}
-export default App
+  return (
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Suspense fallback={<div>Loading...</div>}>
+          <HomePage />
+        </Suspense>} />
+        <Route path="movies" element={<Suspense fallback={<div>Loading...</div>}>
+          <MoviesPage />
+        </Suspense>} />
+        <Route path="movies/:movieId" element={<Layout2 />}>
+          <Route path="cast" element={<Suspense fallback={<div>Loading...</div>}>
+            <CastPage />
+          </Suspense>} />
+          <Route path="reviews" element={<Suspense fallback={<div>Loading...</div>}>
+            <ReviewsPage />
+          </Suspense>} />
+        </Route>
+        <Route path="*" element={<Default />} />
+      </Route>
+    </Routes>
+  );
+};
+
+export default App;

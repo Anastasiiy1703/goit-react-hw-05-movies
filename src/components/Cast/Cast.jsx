@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import CastCss from "./CastCss.module.css";
+
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -25,17 +27,21 @@ const Cast = () => {
     fetchCast();
   }, [movieId]);
 
-  return (
+   return (
     <div>
       <h2>Cast</h2>
-      <div>
+      <ul className={CastCss.list}>
         {cast.map((actor) => (
-          <div key={actor.id}>
-            <img src={`https://image.tmdb.org/t/p/w500${actor.profile_path}`} alt={actor.name} />
+          <li key={actor.id}>
+            <img
+              className={CastCss.img}
+              src={actor.profile_path ? `https://image.tmdb.org/t/p/w500${actor.profile_path}` : `https://fastly.picsum.photos/id/593/1774/2365.jpg?hmac=zzvok1xX2Is_tGRfdHUANqWsOIK0T-HVzWPkaMqZInw`}
+              alt={actor.name}
+            />
             <p>{actor.name}</p>
-          </div>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };

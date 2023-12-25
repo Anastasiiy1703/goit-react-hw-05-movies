@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import MoviesCss from "./MoviesCss.module.css"
 
 const Movies = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -32,10 +33,14 @@ const Movies = () => {
 
   return (
     <div>
-      <form onSubmit={handleSearch}>
-        <input type="text" value={searchTerm} onChange={handleChange} placeholder="Search for a movie" />
-        <button type="submit">Search</button>
-      </form>
+       <div className={MoviesCss.container}>
+      <form className={MoviesCss.SearchForm}  onSubmit={handleSearch}>
+        <input className={MoviesCss.SearchFormInput} type="text" value={searchTerm} onChange={handleChange} placeholder="Search for a movie" />
+        <button className={MoviesCss.SearchFormButton} type="submit">
+        <span className={MoviesCss.SearchFormButtonLabel}>Search</span>
+        </button>
+        </form>
+        </div>
 
       {error && <p>{error}</p>}
 
