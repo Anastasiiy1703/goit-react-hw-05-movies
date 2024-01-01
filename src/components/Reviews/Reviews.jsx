@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { fetchReviews } from 'Fetches/fetch';
 
 const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const apiKey = 'c473a8c64320184dea7ebdd3984bb9b6';
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/reviews?api_key=${apiKey}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setReviews(data.results);
-        } else {
-          throw new Error('Network response was not ok.');
-        }
-      } catch (error) {
-        console.error('Error fetching reviews:', error);
-      }
+    const getReviews = async () => {
+      const reviewsData = await fetchReviews(movieId);
+      setReviews(reviewsData);
     };
 
-    fetchReviews();
+    getReviews();
   }, [movieId]);
 
   return (

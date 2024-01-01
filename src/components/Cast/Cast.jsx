@@ -1,33 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import CastCss from "./CastCss.module.css";
-
+import { fetchCast } from 'Fetches/fetch';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
   const { movieId } = useParams();
 
   useEffect(() => {
-    const fetchCast = async () => {
-      try {
-        const apiKey = 'c473a8c64320184dea7ebdd3984bb9b6';
-        const response = await fetch(`https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=${apiKey}`);
-        
-        if (response.ok) {
-          const data = await response.json();
-          setCast(data.cast);
-        } else {
-          throw new Error('Network response was not ok.');
-        }
-      } catch (error) {
-        console.error('Error fetching cast:', error);
-      }
+    const getCast = async () => {
+      const castData = await fetchCast(movieId); 
+      setCast(castData);
     };
 
-    fetchCast();
+    getCast();
   }, [movieId]);
 
-   return (
+  return (
     <div>
       <h2>Cast</h2>
       <ul className={CastCss.list}>
