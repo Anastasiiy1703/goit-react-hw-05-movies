@@ -9,11 +9,9 @@ const MoviesList = ({ movies }) => {
       <ul>
         {movies.map((movie) => (
           <li key={movie.id}>
-            <Link
-              to={{
-                pathname: `/movies/${movie.id}`,
-                state: { from: location.pathname },
-              }}
+                <Link
+                    to={`/movies/${movie.id}`}
+                    state={{ from: location.pathname }}
             >
               {movie.title || movie.name} - {movie.release_date || movie.first_air_date}
             </Link>

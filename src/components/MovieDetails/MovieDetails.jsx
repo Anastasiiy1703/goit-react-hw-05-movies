@@ -1,23 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, useLocation, Link } from 'react-router-dom';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams,  useLocation, Link } from 'react-router-dom';
 import MovieDetailsCss from './MovieDetailsCss.module.css';
 import { fetchMovieDetails } from 'Fetches/fetch';
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
-  const navigate = useNavigate();
+
   const location = useLocation();
 
   useEffect(() => {
     fetchMovieDetails(movieId, setMovieDetails);
   }, [movieId]);
 
-  const handleGoBack = () => {
-    const backLink = location.state?.from || '/';
-    console.log(location.state?.from);
-    navigate(backLink);
-  };
+ 
+    const backLink = useRef(location.state?.from || '/');
 
   if (!movieDetails) {
     return <div>Loading...</div>;
@@ -29,9 +26,9 @@ const MovieDetails = () => {
     <div className={MovieDetailsCss.container}>
       <div className={MovieDetailsCss.cont}>
         <div className={MovieDetailsCss.btnImg}>
-          <button className={MovieDetailsCss.goBackButton} onClick={handleGoBack}>
+          <Link className={MovieDetailsCss.goBackButton} to={backLink.current}>
             Go back
-          </button>
+          </Link>
           {movieDetails.poster_path && (
             <img
               className={MovieDetailsCss.img}
@@ -53,12 +50,12 @@ const MovieDetails = () => {
         <h3 className={MovieDetailsCss.additionalTitle}>Additional Information</h3>
         <ul>
           <li>
-            <Link to={`/movies/${movieId}/cast`} state={{ from: location.state?.from }}>
+            <Link to={`/movies/${movieId}/cast`} >
               Cast
             </Link>
           </li>
           <li>
-            <Link to={`/movies/${movieId}/reviews`} state={{ from: location.state?.from }}>
+            <Link to={`/movies/${movieId}/reviews`} >
               Reviews
             </Link>
           </li>
